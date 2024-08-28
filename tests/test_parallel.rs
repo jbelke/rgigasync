@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use clap::{Arg, Command};
 
     #[test]
-    fn test_parallel_option() {
+    fn test_parallel() {
         let matches = Command::new("rgigasync")
             .arg(Arg::new("parallel")
                 .long("parallel")

@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clap = "4.0"    # For command-line argument parsing
+clap = { version = "4.0", features = ["derive"] }
 walkdir = "2.3" # For directory traversal
 tempfile = "3.3" # For temporary files
 rayon = "1.5"
