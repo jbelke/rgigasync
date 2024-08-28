@@ -72,32 +72,47 @@ If you prefer not to use `/usr/local/bin`, you can create a `bin` directory in y
 1. **Create a Custom Bin Directory**:
    ```bash
    mkdir -p ~/bin
+   ```
 
 ### Common Examples:
 
-# Common Usage Examples
+1. **Basic Synchronization with Verbose Output**:
+    ```bash
+     rgigasync -- "-av" /Volumes/SrcDir/ /Users/userName/DestDir/
+    ```
 
-- ** Example 1: Basic Synchronization with Verbose Output
- `rgigasync -- "-av" /Volumes/SrcDir/ /Users/userName/DestDir/`
+2. **Synchronization with Progress and Ignoring Existing Files**:
+    ```bash
+    rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/
+    ```
 
-- ** Example 2: Synchronization with Progress and Ignoring Existing Files
- `rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/`
+3. **Specifying a Custom Batch Size**:
+    ```bash
+    rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 512
+    ```
 
-- ** Example 3: Specifying a Custom Batch Size
- `rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 512`
+4. **Excluding Specific File Types**:
+    ```bash
+    rgigasync -- "-av --exclude='*.tmp' --exclude='*.log'" /Volumes/SrcDir/ /Users/userName/DestDir/
+    ```
 
-- ** Example 4: Excluding Specific File Types
- `rgigasync -- "-av --exclude='*.tmp' --exclude='*.log'" /Volumes/SrcDir/ /Users/userName/DestDir/`
+5. **Synchronization Over SSH**:
+    ```bash
+    rgigasync -- "-avz -e ssh" /Volumes/SrcDir/ user@remote-server:/home/user/DestDir/
+    ```
 
-- ** Example 5: Synchronization Over SSH
- `rgigasync -- "-avz -e ssh" /Volumes/SrcDir/ user@remote-server:/home/user/DestDir/`
+6. **Deleting Files at Destination That Are Not Present at Source**:
+    ```bash
+    rgigasync -- "-av --delete" /Volumes/SrcDir/ /Users/userName/DestDir/
+    ```
 
-- ** Example 6: Deleting Files at Destination That Are Not Present at Source
-  `rgigasync -- "-av --delete" /Volumes/SrcDir/ /Users/userName/DestDir/`
+7. **Limiting Bandwidth Usage**:
+    ```bash
+    rgigasync -- "-av --bwlimit=10240" /Volumes/SrcDir/ /Users/userName/DestDir/
+    ```
 
-- ** Example 7: Limiting Bandwidth Usage
-  `rgigasync -- "-av --bwlimit=10240" /Volumes/SrcDir/ /Users/userName/DestDir/`
-
-- ** Example 8: Dry Run to Preview Changes
-  `rgigasync -- "-av --dry-run" /Volumes/SrcDir/ /Users/userName/DestDir/`
+8. **Dry Run to Preview Changes**:
+    ```bash
+    rgigasync -- "-av --dry-run" /Volumes/SrcDir/ /Users/userName/DestDir/
+    ```
 
