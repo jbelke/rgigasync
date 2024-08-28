@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  rgigasync:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rgigasync:latest
+    container_name: rgigasync
+    environment:
+      - SRC_DIR=${SRC_DIR}
+      - TARGET_DIR=${TARGET_DIR}
+      - RSYNC_OPTIONS=${RSYNC_OPTIONS}
+    volumes:
+      - ${SRC_DIR}:${SRC_DIR}
+      - ${TARGET_DIR}:${TARGET_DIR}
+    command: >
+      sh -c "rgigasync -- ${RSYNC_OPTIONS} ${SRC_DIR} ${TARGET_DIR}"
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
