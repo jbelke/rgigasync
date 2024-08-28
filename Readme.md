@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/gh/jbelke/rgigasync/branch/main/graph/badge.svg?token=yourtoken)](https://codecov.io/gh/jbelke/rgigasync)
+
+![Build Status](https://github.com/jbelke/rgigasync/actions/workflows/ci.yml/badge.svg)
+
 # rgigasync
 
 `rgigasync` is a high-performance, Rust-based command-line tool that enhances the capabilities of `rsync` by enabling efficient mirroring of large directory trees. It is designed to overcome the limitations of `rsync` when dealing with massive file sets, providing speed improvements and greater resilience in handling large-scale file synchronization tasks.
