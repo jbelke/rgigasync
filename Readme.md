@@ -118,6 +118,13 @@ If you prefer not to use `/usr/local/bin`, you can create a `bin` directory in y
 
 9. **Parallel Synchronization for Faster Execution:**:
     ```bash
-    rgigasync --parallel "--av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 1024
+    rgigasync --parallel "--av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 512
+
+    ## Mac OSX: Use all cores
+    # rgigasync --parallel -- "--av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 2048
+    
+    ## Override Cores
+    # RAYON_NUM_THREADS=8 rgigasync --parallel -- "--av --ignore-existing --info=progress2" /Volumes/tuf/TBD/ /Users/josh/TBD/ 2048
+
     ```
 

@@ -8,4 +8,5 @@ clap = "4.0"    # For command-line argument parsing
 walkdir = "2.3" # For directory traversal
 tempfile = "3.3" # For temporary files
 rayon = "1.5"
+dotenv = "0.15"
 
