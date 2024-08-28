@@ -116,3 +116,8 @@ If you prefer not to use `/usr/local/bin`, you can create a `bin` directory in y
     rgigasync -- "-av --dry-run" /Volumes/SrcDir/ /Users/userName/DestDir/
     ```
 
+9. **Parallel Synchronization for Faster Execution:**:
+    ```bash
+    rgigasync --parallel "--av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 1024
+    ```
+
