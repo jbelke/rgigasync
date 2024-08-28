@@ -77,27 +77,27 @@ If you prefer not to use `/usr/local/bin`, you can create a `bin` directory in y
 
 # Common Usage Examples
 
-# Example 1: Basic Synchronization with Verbose Output
-# rgigasync -- "-av" /Volumes/SrcDir/ /Users/userName/DestDir/
+- ** Example 1: Basic Synchronization with Verbose Output
+ `rgigasync -- "-av" /Volumes/SrcDir/ /Users/userName/DestDir/`
 
-# Example 2: Synchronization with Progress and Ignoring Existing Files
-# rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/
+- ** Example 2: Synchronization with Progress and Ignoring Existing Files
+ `rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/`
 
-# Example 3: Specifying a Custom Batch Size
-# rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 512
+- ** Example 3: Specifying a Custom Batch Size
+ `rgigasync -- "-av --ignore-existing --info=progress2" /Volumes/SrcDir/ /Users/userName/DestDir/ 512`
 
-# Example 4: Excluding Specific File Types
-# rgigasync -- "-av --exclude='*.tmp' --exclude='*.log'" /Volumes/SrcDir/ /Users/userName/DestDir/
+- ** Example 4: Excluding Specific File Types
+ `rgigasync -- "-av --exclude='*.tmp' --exclude='*.log'" /Volumes/SrcDir/ /Users/userName/DestDir/`
 
-# Example 5: Synchronization Over SSH
-# rgigasync -- "-avz -e ssh" /Volumes/SrcDir/ user@remote-server:/home/user/DestDir/
+- ** Example 5: Synchronization Over SSH
+ `rgigasync -- "-avz -e ssh" /Volumes/SrcDir/ user@remote-server:/home/user/DestDir/`
 
-# Example 6: Deleting Files at Destination That Are Not Present at Source
-# rgigasync -- "-av --delete" /Volumes/SrcDir/ /Users/userName/DestDir/
+- ** Example 6: Deleting Files at Destination That Are Not Present at Source
+  `rgigasync -- "-av --delete" /Volumes/SrcDir/ /Users/userName/DestDir/`
 
-# Example 7: Limiting Bandwidth Usage
-# rgigasync -- "-av --bwlimit=10240" /Volumes/SrcDir/ /Users/userName/DestDir/
+- ** Example 7: Limiting Bandwidth Usage
+  `rgigasync -- "-av --bwlimit=10240" /Volumes/SrcDir/ /Users/userName/DestDir/`
 
-# Example 8: Dry Run to Preview Changes
-# rgigasync -- "-av --dry-run" /Volumes/SrcDir/ /Users/userName/DestDir/
+- ** Example 8: Dry Run to Preview Changes
+  `rgigasync -- "-av --dry-run" /Volumes/SrcDir/ /Users/userName/DestDir/`
 
