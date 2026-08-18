@@ -2,9 +2,34 @@
 #![allow(dead_code)]
 
 use std::collections::BTreeSet;
+use std::io::Write;
 use std::path::{Path, PathBuf};
 
 use tempfile::TempDir;
+
+/// Write `contents` as a unix executable at `path`.
+///
+/// `fs::write` followed by `chmod` can fail the next `exec` with `ETXTBSY`
+/// ("Text file busy") on Linux, especially under coverage where tests overlap.
+/// Writing a sibling, fsyncing, then renaming onto `path` closes that race.
+#[cfg(unix)]
+fn write_unix_executable(path: &Path, contents: &str) {
+    use std::os::unix::fs::OpenOptionsExt;
+
+    let tmp = path.with_extension("writing");
+    {
+        let mut file = std::fs::OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .mode(0o755)
+            .open(&tmp)
+            .unwrap();
+        file.write_all(contents.as_bytes()).unwrap();
+        file.sync_all().unwrap();
+    }
+    std::fs::rename(tmp, path).unwrap();
+}
 
 /// A stub `rsync` that records the `--files-from` list of every invocation.
 ///
@@ -88,12 +113,7 @@ exit 0
             sleep_secs = sleep_secs,
             fail_times = fail_times,
         );
-        std::fs::write(&binary, script).unwrap();
-        #[cfg(unix)]
-        {
-            use std::os::unix::fs::PermissionsExt;
-            std::fs::set_permissions(&binary, std::fs::Permissions::from_mode(0o755)).unwrap();
-        }
+        write_unix_executable(&binary, &script);
 
         Self {
             _dir: dir,

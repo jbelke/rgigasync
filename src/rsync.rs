@@ -303,6 +303,31 @@ fn path_bytes(path: &Path) -> Vec<u8> {
     path.to_string_lossy().into_owned().into_bytes()
 }
 
+/// Write `contents` as a unix executable at `path`.
+///
+/// `fs::write` followed by `chmod` leaves the file open-for-write from the
+/// kernel's point of view long enough that an immediate `exec` can fail with
+/// `ETXTBSY` ("Text file busy"). Writing a sibling, fsyncing, then renaming
+/// onto `path` closes that race.
+#[cfg(all(test, unix))]
+fn write_unix_executable(path: &Path, contents: &str) {
+    use std::os::unix::fs::OpenOptionsExt;
+
+    let tmp = path.with_extension("writing");
+    {
+        let mut file = std::fs::OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .mode(0o755)
+            .open(&tmp)
+            .unwrap();
+        file.write_all(contents.as_bytes()).unwrap();
+        file.sync_all().unwrap();
+    }
+    std::fs::rename(tmp, path).unwrap();
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -465,9 +490,7 @@ mod tests {
         // will not make a misspelled flag valid.
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("always-usage-error");
-        std::fs::write(&path, "#!/bin/sh\nexit 1\n").unwrap();
-        use std::os::unix::fs::PermissionsExt;
-        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o755)).unwrap();
+        write_unix_executable(&path, "#!/bin/sh\nexit 1\n");
 
         let rsync = Rsync {
             binary: path.to_string_lossy().into_owned(),
@@ -508,8 +531,6 @@ mod capability_tests {
 
     /// Build a stub that accepts every flag except those in `rejects`.
     fn stub(rejects: &[&str]) -> (tempfile::TempDir, String) {
-        use std::os::unix::fs::PermissionsExt;
-
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("stub-rsync");
         let cases = rejects
@@ -520,8 +541,7 @@ mod capability_tests {
         let script = format!(
             "#!/bin/sh\necho 'rsync version 9.9.9 protocol version 99'\nfor a in \"$@\"; do\n  case \"$a\" in\n{cases}\n  esac\ndone\nexit 0\n"
         );
-        std::fs::write(&path, script).unwrap();
-        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o755)).unwrap();
+        write_unix_executable(&path, &script);
         let binary = path.to_string_lossy().into_owned();
         (dir, binary)
     }
