@@ -1,12 +1,40 @@
 [package]
 name = "rgigasync"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
+rust-version = "1.74"
+description = "Mirror enormous directory trees with rsync by splitting the transfer into bounded batches"
+authors = ["Josh Belke <joshbelke@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/jbelke/rgigasync"
+readme = "README.md"
+keywords = ["rsync", "sync", "mirror", "backup", "cli"]
+categories = ["command-line-utilities", "filesystem"]
 
 [dependencies]
-clap = { version = "4.0", features = ["derive"] }
-walkdir = "2.3" # For directory traversal
-tempfile = "3.3" # For temporary files
-rayon = "1.5"
-dotenv = "0.15"
+clap = { version = "4.5", features = ["derive"] }
+walkdir = "2.5"          # directory traversal
+tempfile = "3.10"        # per-batch --files-from lists
+rayon = "1.10"           # parallel batch execution
+dotenvy = "0.15"         # maintained fork of the (deprecated) dotenv crate
+shell-words = "1.1"      # POSIX-correct splitting of user rsync options
+thiserror = "2.0"
 
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"

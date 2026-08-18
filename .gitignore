@@ -1,1 +1,10 @@
 /target
+
+# Local configuration; copy .env.example and edit.
+.env
+
+# Coverage artefacts
+lcov.info
+cobertura.xml
+*.profraw
+tarpaulin-report.*
